@@ -26,8 +26,8 @@ function authorize_titech() {
 
   # login
   _CURL_RESULT=$(curl $TP_LOGIN_URL -X POST -d buttonClicked=4 -d "username=${TITECH_STUDENT_ID}&password=${TITECH_PASSWORD}" 2>&1)
+  local STATUS_CODE=`echo $_CURL_RESULT | grep 'statusCode' | sed -e 's/^.*statusCode=//g' -e 's/\".*//g'`
 
-  local STATUS_CODE=` echo $CURL_RESULT | grep 'statusCode' | sed -e 's/^.*[statusCode=]//g' -e 's/\".*//g'`
 
   case $STATUS_CODE in
       1) echo "You are already logged in.";;
@@ -99,6 +99,10 @@ function show_escaped_ssid() {
   fi
 
   echo "${escaped}"
+}
+
+function change_wifi() {
+  networksetup -setairportnetwork en0 "$1" "$2"
 }
 
 function first_init() {
