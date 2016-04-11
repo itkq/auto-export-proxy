@@ -13,8 +13,4 @@ if [ $ssid != "TokyoTech" ]; then
   sleep 4
 fi
 
-if is_ip_assigned; then
-  echo 'Now authorizing...'
-
-  authorize_titech
-fi
+titech_pubnet_post_export
