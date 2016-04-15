@@ -28,6 +28,9 @@ function authorize_titech() {
   _CURL_RESULT=$(curl $TP_LOGIN_URL -X POST -d buttonClicked=4 -d "username=${TITECH_STUDENT_ID}&password=${TITECH_PASSWORD}" 2>&1)
   local STATUS_CODE=`echo $_CURL_RESULT | grep 'statusCode' | sed -e 's/^.*statusCode=//g' -e 's/\".*//g'`
 
+  if echo $_CURL_RESULT | grep -q "Login Successful"; then
+    return 1;
+  fi
 
   case $STATUS_CODE in
       1) echo "You are already logged in.";;
@@ -74,6 +77,8 @@ function titech_pubnet_post_export() {
       else
           echo 'Auto log-in is failure.'
       fi
+    else
+      echo 'Auto log-in is successful.'
     fi
   fi
 }
